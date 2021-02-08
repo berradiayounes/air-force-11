@@ -13,7 +13,7 @@ def get_airline_links(url=AIRLINE_PAGE_URL):
     airline_links = {}
     alphabet = list(string.ascii_lowercase)
     for letter in tqdm(alphabet):
-        soup = BeautifulSoup(requests.get(url.format(letter)).text)
+        soup = BeautifulSoup(requests.get(url.format(letter)).text, features="lxml")
         airlines_html = soup.findAll("article", {"class": "airline"})
         for element in airlines_html:
             name = element.find("span", {"itemprop": "name"}).text
@@ -23,7 +23,7 @@ def get_airline_links(url=AIRLINE_PAGE_URL):
 
 
 def get_review_links(url, base_url=BASE_URL):
-    soup = BeautifulSoup(requests.get(url).text)
+    soup = BeautifulSoup(requests.get(url).text, features="lxml")
     review_links = [
         el.get("content")
         for el in soup.find(id="reports").find_all("meta", {"itemprop": "url"})
@@ -33,7 +33,7 @@ def get_review_links(url, base_url=BASE_URL):
 
 
 def get_review(url):
-    soup = BeautifulSoup(requests.get(url).text)
+    soup = BeautifulSoup(requests.get(url).text, features="lxml")
     review = "".join(
         [element.text for element in soup.find(id="Conclusion").find_all("p")]
     )
@@ -42,7 +42,7 @@ def get_review(url):
 
 def get_ratings(url):
     rating_dict = {}
-    soup = BeautifulSoup(requests.get(url).text)
+    soup = BeautifulSoup(requests.get(url).text, features="lxml")
     rating_rows = soup.find_all("div", {"class": "colRanking children"})
     for row in rating_rows:
         for i, element in enumerate(row.find_all("span")):
