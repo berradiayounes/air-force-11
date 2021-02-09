@@ -80,7 +80,7 @@ def scrape_flight_report():
             record["review"] = get_review(link)
             reviews.append(record)
     reviews_df = pd.DataFrame(reviews)
-    _ = reviews_df.to_csv("data/flight_report.csv")
+    _ = reviews_df.to_csv("data/flight_report.csv", index=False)
     return True
 
 
