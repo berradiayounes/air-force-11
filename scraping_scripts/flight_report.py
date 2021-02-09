@@ -85,5 +85,4 @@ def scrape_flight_report():
 
 
 if __name__ == "__main__":
-    import os
     _ = scrape_flight_report()
