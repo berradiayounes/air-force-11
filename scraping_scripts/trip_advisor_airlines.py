@@ -4,7 +4,7 @@ import time
 import pandas as pd
 
 #Define driver
-driver = webdriver.Chrome("../../chromedriver")
+driver = webdriver.Chrome("../../../chromedriver") #adapt based on your arborescence
 
 #Write function to iterate through pages
 def _find_element_click(
@@ -61,4 +61,4 @@ while i < total_pages - 1:
 
 #Write to csv
 airline_info = pd.DataFrame({'airlines': airlines, 'links': links})
-airline_info.to_csv("data/airline_links_tripadvisor.csv", sep=",", index = False)
+airline_info.to_csv("../data/airline_links_tripadvisor.csv", sep=",", index = False)
