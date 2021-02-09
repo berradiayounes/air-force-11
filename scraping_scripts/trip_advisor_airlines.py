@@ -44,21 +44,27 @@ page = BeautifulSoup(driver.page_source)
 #Get all airlines that are still operating
 airlines = []
 links = []
+review_count = []
 i = 0
 total_pages = int(page.find("div", {"class": "pageNumbers"}).find_all("span")[-1].text)
-while i < total_pages - 1:
+for i in range(total_pages - 1):
     page = BeautifulSoup(driver.page_source)
 
     for airline in page.find("div", {"class": "mainColumnContent"}).find_all("div", {"class": "airlineSummary"}):
         if "[no longer operating]" not in airline.text:
             airlines.append(airline.find("div").text)
             links.append(airline.find("a").get("href"))
+            try:
+                review_string = airline.find("div", {"class": "airlineReviews"}).text.split(" review")[0].replace(",", "")
+                review_count.append(int(review_string))
+            except:
+                review_count.append(0)
     
     result = _find_element_click(driver, webdriver.common.by.By.CSS_SELECTOR, ".next")
     if result == False:
-        i = total_pages
+        break
         print("Failure to go to next page")
 
 #Write to csv
-airline_info = pd.DataFrame({'airlines': airlines, 'links': links})
+airline_info = pd.DataFrame({'airlines': airlines, 'links': links, "review_count": review_count})
 airline_info.to_csv("../data/airline_links_tripadvisor.csv", sep=",", index = False)
