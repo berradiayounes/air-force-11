@@ -4,11 +4,11 @@ from sklearn.decomposition import NMF
 import pandas as pd
 
 
-def get_topics(D, feature_names, n_top_words, verbose):
-    p, r = D.shape
+def get_topics(embeddings, feature_names, n_top_words, verbose):
+    _, r = embeddings.shape
     topic_dict = {}
     for topic_idx in range(r):
-        topic = D[:, topic_idx]
+        topic = embeddings[:, topic_idx]
         message = "Topic #%d: " % topic_idx
         message += " ".join(
             [
@@ -25,12 +25,11 @@ def get_topics(D, feature_names, n_top_words, verbose):
     return topic_dict
 
 
-def get_nmf_topics(
+def get_embeddings_nmf(
     path,
     review_column="review",
     n_features=50,
     n_components=20,
-    n_top_words=5,
     verbose=False,
 ):
     dataset = pd.read_csv(path, na_values="")[review_column].dropna().values
@@ -47,15 +46,14 @@ def get_nmf_topics(
     # Fit the NMF model
     nmf = NMF(n_components=n_components).fit(tfidf)
 
-    topic_dict = get_topics(
-        nmf.components_.T,
-        tfidf_vectorizer.get_feature_names(),
-        n_top_words,
-        verbose,
-    )
-
-    return topic_dict
+    return nmf.components_.T, tfidf_vectorizer.get_feature_names()
 
 
 if __name__ == "__main__":
-    topic_dict = get_nmf_topics("data/flight_report.csv", verbose=True)
+    embeddings, feature_names = get_embeddings_nmf("data/flight_report.csv", verbose=True)
+    topic_dict = get_topics(
+        embeddings,
+        feature_names,
+        n_top_words=5,
+        verbose=True,
+    )
