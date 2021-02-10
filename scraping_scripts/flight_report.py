@@ -10,6 +10,17 @@ AIRLINE_PAGE_URL = f"{BASE_URL}/en/airline/" + "?l={}"
 
 
 def get_airline_links(url=AIRLINE_PAGE_URL):
+    """Find the url links specific to each airline
+
+    Args:
+        url (str, optional): Root path where airline links are found. 
+            Defaults to AIRLINE_PAGE_URL.
+
+    Returns:
+        dict: Dictionary 
+            - key: Name of airlines
+            - value: Url link of the airline
+    """
     airline_links = {}
     alphabet = list(string.ascii_lowercase)
     for letter in tqdm(alphabet):
@@ -23,6 +34,15 @@ def get_airline_links(url=AIRLINE_PAGE_URL):
 
 
 def get_review_links(url, base_url=BASE_URL):
+    """Get links for the reviews of airlines
+
+    Args:
+        url (string): Url where to find airline reviews links
+        base_url (str, optional): Root url of the website. Defaults to BASE_URL.
+
+    Returns:
+        list: Reviews links
+    """
     soup = BeautifulSoup(requests.get(url).text, features="lxml")
     review_links = [
         el.get("content")
@@ -33,6 +53,14 @@ def get_review_links(url, base_url=BASE_URL):
 
 
 def get_review(url):
+    """Parse reviews from url link
+
+    Args:
+        url (str): Url link of the review
+
+    Returns:
+        string: Text of the review
+    """
     soup = BeautifulSoup(requests.get(url).text, features="lxml")
     review = "".join(
         [element.text for element in soup.find(id="Conclusion").find_all("p")]
@@ -41,6 +69,15 @@ def get_review(url):
 
 
 def get_ratings(url):
+    """Parse ratings from url link
+
+    Args:
+        url (str): Url link of the review
+
+    Returns:
+        dict: Record of the ratings given on the reviews
+            and metadata of the review
+    """
     rating_dict = {}
     soup = BeautifulSoup(requests.get(url).text, features="lxml")
     rating_rows = soup.find_all("div", {"class": "colRanking children"})
@@ -70,6 +107,10 @@ def get_ratings(url):
 
 
 def scrape_flight_report():
+    """Main function to scrap flight report website
+
+    https://flight-report.com
+    """
     reviews = []
     airline_links = get_airline_links()
     for airline_name, airline_link in tqdm(airline_links.items()):
