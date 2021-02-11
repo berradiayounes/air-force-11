@@ -1,15 +1,46 @@
 import pandas as pd 
 import numpy as np
+import os
 
 from model.preprocess import Preprocessor
+from model.topic_modeling_gensim import topic_modeling
+from model.embedding_nmf import get_embeddings_nmf, get_topics
 
+DATA_PATH = "data/main.csv"
+REVIEW_COLUMN = "Review Body"
+METHOD_TOPIC_MODELING = "gensim"
 
-
-def main():
-    df = pd.read_csv("data/main.csv")
+def preprocess(df):
     preprocessor = Preprocessor()
-    df_preprocessed = preprocessor.preprocess(df, "Review Body")
+    df_preprocessed = preprocessor.preprocess(df, REVIEW_COLUMN)
     df_preprocessed.to_csv("data/main_preprocessed.csv")
+
+    return df_preprocessed
+
+
+def main(method=METHOD_TOPIC_MODELING):
+    df = pd.read_csv(DATA_PATH)
+    df_preprocessed = preprocess(df)
+
+    if not os.path.exists("results"):
+        os.makedirs("results")
+        
+    if method == "gensim":
+        topic_dict = topic_modeling(df_preprocessed, start=2, limit=8, step=1, num_words_per_topic=5)
+        topic_df = pd.DataFrame(topic_dict)
+        _ = topic_df.to_csv(f"topics_{method}.csv")
+
+    elif method == "nmf":
+        embeddings, feature_names = get_embeddings_nmf(
+            DATA_PATH, verbose=True
+        )   
+        topic_dict = get_topics(
+            embeddings,
+            feature_names,
+            n_top_words=5,
+            verbose=True,
+        )
+        _ = topic_df.to_csv(f"topics_{method}.csv")
 
     return 0
 
