@@ -6,6 +6,18 @@ import numpy as np
 
 
 def scrape_skytrax():
+    url = 'https://www.airlinequality.com/review-pages/a-z-airline-reviews/'
+    page = requests.get(url)
+    soup = BeautifulSoup(page.text)
+    soup2 = soup.find_all('div',{'class':'a_z_col_group'})
+
+    list_airlines = []
+    for i in soup2:
+        p = i.find_all('a')
+        for k in p:
+            k.get('href')
+            list_airlines.append(k.get('href'))
+            
     main_df = pd.DataFrame(
         columns=[
             "Airline",
