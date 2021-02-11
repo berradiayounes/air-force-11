@@ -23,6 +23,7 @@ colorama==0.4.4
 colorlog==4.7.2
 cymem==2.0.5
 decorator==4.4.2
+et-xmlfile==1.0.1
 filelock==3.0.12
 flatbuffers==1.12
 gast==0.3.3
@@ -42,6 +43,7 @@ idna==2.10
 iniconfig==1.1.1
 ipython==7.20.0
 ipython-genutils==0.2.0
+jdcal==1.4.1
 jedi==0.18.0
 Jinja2==2.11.3
 jmespath==0.10.0
@@ -55,6 +57,7 @@ murmurhash==1.0.5
 nltk==3.5
 numpy==1.19.5
 oauthlib==3.1.0
+openpyxl==3.0.6
 opt-einsum==3.3.0
 optuna==2.5.0
 packaging==20.9
@@ -119,5 +122,6 @@ typing-extensions==3.7.4.3
 urllib3==1.26.3
 wasabi==0.8.2
 wcwidth==0.2.5
-Werkzeug==1.0.1
+Werkzeug==1.0.1s
 wrapt==1.12.1
+xlrd==1.2.0

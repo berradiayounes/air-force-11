@@ -17,14 +17,6 @@ The client, a player in the aeronautic industry, wants to understand how the use
 Several websites enable users to share their experience, thereby providing valuable data sourceswith large and various information. We choose to scrape **Trip Advisor**, **SkyTrax**, **Airline Reviews** and **Flight Report**. 
 The goal is to leverage webscrapingtechniques, topic modelling and sentiment analysis algorithms as well as your business sense to provide insights on possible business opportunities.
 
-## Approach
-
-Our approach is the following:
-<img src="img/approach.png">
-
-## Model 
-<img src="img/model.png">
-
 ## Repository Architecture
 
 ```
@@ -47,6 +39,16 @@ air-force-11
 ├── requirements.txt
 └── main.py
 ```
+
+## Approach
+
+Our approach is the following:
+<img src="img/approach.png">
+
+## Model 
+<img src="img/model.png">
+
+
 
 ## Setup python project
 

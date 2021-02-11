@@ -73,8 +73,6 @@ def get_sentiments(
     if verbose:
         print("Starting to analyze sentiments...")
 
-    reviews = reviews.head(20)
-
     for i in tqdm(reviews.index):
         review = reviews.at[i, review_column]
         aspects = get_aspects_for_review(review, all_aspects)
