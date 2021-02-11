@@ -25,6 +25,9 @@ def format_date(date):
 
 
 def keep_only_english_non_empty(sentence):
+    if pd.isna(sentence):
+        return sentence
+
     sentence_wo_punctuation = "".join(
         [c.lower() for c in sentence if c not in string.punctuation]
     ).strip()
@@ -228,11 +231,23 @@ def merge_reviews():
     master_file = master_file.append(skytrax_df_rearranged)
     master_file["Review Body"] = (
         master_file["Review Body"]
-        .dropna()
         .progress_apply(keep_only_english_non_empty)
-        .dropna()
     )
+    master_file = master_file.dropna(subset=["Review Body"])
     master_file.to_csv("data/main_with_ratings.csv", index=False)
+
+    master_file["Class"].replace({"Flew Economy Class": "Economy Class", "Flew Business Class": "Business Class",
+                        "Flew Economy": "Economy Class", "Flew First" : "First Class", "Flew Premium Economy" : "Premium Economy Class",
+                        "Flew Business" : "Business Class","Flew Premium Economy Class" : "Premium Economy Class",
+                        "Flew First Class":"First Class", "Premium Economy": "Premium Economy Class" }, inplace=True)
+    master_file['Airline_Merge'] = master_file["Airline"].str.replace("-", "").str.replace(' ','').str.lower()
+
+    df3 = pd.read_csv('data/airlineratings_categories_and_ratings.csv')
+    df3['Airline_Merge'] = df3['Airline'].str.replace(' ','').str.replace('-','').str.lower()
+
+
+    final_master_file = pd.merge(master_file, df3, left_on='Airline_Merge', right_on='Airline_Merge')
+    _ = final_master_file.to_csv('data/main_with_ratings_category.csv')
 
     return 0
 
