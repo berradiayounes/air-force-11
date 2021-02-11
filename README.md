@@ -46,6 +46,21 @@ air-force-11
 
 <img src="img/approach.png">
 
+## Scraping
+
+In the folder scraping_scripts, you can find all the scripts used to scrape the websites cited before
+
+We used the libraries **Request**, **Beautiful Soup (bs4)** and **Selenium** to get the reviews
+
+Each scripts is specific to the website, but the core approach is the same for the website we had:
+
+1. Get the airline names and the links to the page where the reviews can be found
+2. For each of those links, extract the reviews found
+
+First step explains why you can find two scripts, the first one for the first part and the second for the second part
+
+Finally, once all websites are scraped, you can concanate them using the script in **__main__.py**
+
 ## Model 
 
 <img src="img/model.png">
@@ -126,6 +141,46 @@ python main.py
     python main.py --method gensim
     ```
     Use LDA to generate topics
+
+* **Scraping commands**
+
+:warning: Some scrapings use **Selenium** web drivers. Please download the chrome driver [here](https://chromedriver.chromium.org/downloads) and put in the **scraping_scripts** directory.
+
+  * **Trip Advisor**
+
+    1. Get Airline Names
+    ```bash 
+    python scraping_scripts/trip_advisor_airlines.py
+    ```
+    2. Get Airline Reviews and Ratings
+    ```bash 
+    python scraping_scripts/trip_advisor.py
+    ```
+
+  * **Airline Ratings**
+
+      1. Get Airline Review
+      ```bash 
+      python scraping_scripts/airlineratings.py
+      ```
+      2. Get Airline Reviews and Ratings
+      ```bash 
+      python scraping_scripts/airlineratings_airline_categories_and_ratings.py
+      ```
+   * **SkyTrax**
+      * Get Airline Reviews and Ratings
+        ```bash
+        python scraping_scripts/skytrax.py
+        ```
+    * **Flight Report**
+      * Get Airline Reviews and Ratings
+        ```bash
+        python scraping_scripts/flight_report.py
+        ```
+    Finally, to get the concatenated reviews:
+    ```bash
+    python scraping_scripts
+    ```
 
 ## Linting
 
