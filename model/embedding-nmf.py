@@ -29,7 +29,7 @@ def get_embeddings_nmf(
     path,
     review_column="review",
     n_features=50,
-    n_components=20,
+    n_components=5,
     verbose=False,
 ):
     dataset = pd.read_csv(path, na_values="")[review_column].dropna().values

@@ -3,28 +3,60 @@ import pandas as pd
 import numpy as np
 from nltk.tokenize import word_tokenize
 from nltk.corpus import stopwords
-from nltk.stem.porter import *
+from nltk.stem.porter import PorterStemmer
+from langdetect import detect
 from tqdm import tqdm
+import warnings
+import transformers
+from transformers import BertTokenizer
+
+
+warnings.filterwarnings("ignore")
 
 tqdm.pandas()
 
 
 class Preprocessor:
+    def __init__(self, stem=True, omit={}):
+        self.stem = stem
+        self.stemmer = PorterStemmer()
+        self.omit = {"cancel", "covid", "cancelled"}
+        self.omit.update(omit)
+        name = 'absa/classifier-rest-0.2' # rest for restaurant
+        self.tokenizer = BertTokenizer.from_pretrained(name).basic_tokenizer.tokenize
+
     def preprocess_sentence(self, sentence):
+        # Remove punctuation
         sentence = "".join(
             [c.lower() for c in sentence if c not in string.punctuation]
         ).strip()
 
-        sentence = " ".join(
+        # Keep only reviews in english
+        if sentence == "":
+            return sentence
+
+        review_language = detect(sentence)
+
+        if review_language != "en":
+            return ""
+
+        # Tokenize words
+        sentence = (
             [
                 w
-                for w in word_tokenize(sentence)
+                for w in self.tokenizer(sentence)
                 if not w in stopwords.words("english")
             ]
         )
 
-        stemmer = PorterStemmer()
-        sentence = " ".join([stemmer.stem(w) for w in word_tokenize(sentence)])
+        # Empty review if it contains words in the omit set
+        if self.omit.intersection(sentence):
+            sentence = ""
+
+        # Stem words
+        if self.stem:
+            stemmer = self.stemmer
+            sentence = [stemmer.stem(w) for w in sentence]
 
         return sentence
 
