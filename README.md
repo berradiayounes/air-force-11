@@ -48,18 +48,18 @@ air-force-11
 
 ## Scraping
 
-In the folder scraping_scripts, you can find all the scripts used to scrape the websites cited before
+In the folder scraping_scripts, you can find all the scripts used to scrape the websites cited above.
 
 We used the libraries **Request**, **Beautiful Soup (bs4)** and **Selenium** to get the reviews
 
-Each scripts is specific to the website, but the core approach is the same for the website we had:
+Each script is specific to the website, but the core approach is the same for the website we surveyed:
 
 1. Get the airline names and the links to the page where the reviews can be found
 2. For each of those links, extract the reviews found
 
-First step explains why you can find two scripts, the first one for the first part and the second for the second part
+First step explains why you can find two scripts, the first one for the first part and the second for the second part.
 
-Finally, once all websites are scraped, you can concanate them using the script in **__main__.py**
+Eventually, once all websites are scraped, you can concanate them using the script in **__main__.py**
 
 ## Model 
 
