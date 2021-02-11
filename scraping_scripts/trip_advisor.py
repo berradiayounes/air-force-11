@@ -1,4 +1,4 @@
-#Imports
+# Imports
 from bs4 import BeautifulSoup
 from selenium import webdriver
 import time
@@ -7,17 +7,17 @@ import requests
 from tqdm import tqdm
 
 
-#Driver
+# Driver
 driver = webdriver.Chrome("../../../chromedriver")
 
-#Load airline urls (the csv file is written after running trip_advisor_airlines.py)
-airlines = pd.read_csv("../data/airline_links_tripadvisor.csv", sep = ",")
+# Load airline urls (the csv file is written after running trip_advisor_airlines.py)
+airlines = pd.read_csv("../data/airline_links_tripadvisor.csv", sep=",")
 
 
-#Go through all the pages of reviews
+# Go through all the pages of reviews
 for airline in airlines["airlines"]:
     print(airline)
-    #Lists in which to feed the values for the final dataframe
+    # Lists in which to feed the values for the final dataframe
     airline_name = []
     reviews = []
     dates = []
@@ -26,51 +26,58 @@ for airline in airlines["airlines"]:
     regions = []
     classes = []
 
-    #Access airline reviews page
-    url = "https://www.tripadvisor.com" + airlines.loc[airlines['airlines'] == airline]["links"].values[0]
+    # Access airline reviews page
+    url = (
+        "https://www.tripadvisor.com"
+        + airlines.loc[airlines["airlines"] == airline]["links"].values[0]
+    )
     [url_prefix, url_suffix] = url.split("Reviews-")
     driver.get(url)
 
-    #Scroll down page to load it, and get the total number of pages
+    # Scroll down page to load it, and get the total number of pages
     driver.execute_script("window.scrollTo(0, document.body.scrollHeight)")
     time.sleep(2)
     driver.execute_script("window.scrollTo(0, document.body.scrollHeight)")
     page = BeautifulSoup(driver.page_source)
     try:
-        total_pages = int(page.find("div", {"class": "pageNumbers"}).find_all("a")[-1].text)
-    except: #If there's only one page of reviews, the div block named pageNumbers will not be present at the bottom of the page
+        total_pages = int(
+            page.find("div", {"class": "pageNumbers"}).find_all("a")[-1].text
+        )
+    except:  # If there's only one page of reviews, the div block named pageNumbers will not be present at the bottom of the page
         total_pages = 1
 
-    #Go through pages of reviews for one airline
-    for i in tqdm(range(0, total_pages, 10)): #Skip pages to finish scraping before the end of the hackathon :)
+    # Go through pages of reviews for one airline
+    for i in tqdm(
+        range(0, total_pages, 10)
+    ):  # Skip pages to finish scraping before the end of the hackathon :)
         driver.get(url)
 
-        #Scroll to load all reviews
+        # Scroll to load all reviews
         driver.execute_script("window.scrollTo(0, document.body.scrollHeight)")
         time.sleep(1)
         driver.execute_script("window.scrollTo(0, document.body.scrollHeight)")
 
-        #Use beautiful soup to read page contents
+        # Use beautiful soup to read page contents
         page = BeautifulSoup(driver.page_source)
 
-        #Go through all the reviews in one page, not all fields are available for every review, so we need to try extraction
+        # Go through all the reviews in one page, not all fields are available for every review, so we need to try extraction
         review_blocks = page.find_all("div", {"class": "oETBfkHU"})
         for review_block in review_blocks:
-            #Review text
+            # Review text
             try:
                 review = review_block.find("q", {"class": "IRsGHoPm"})
                 reviews.append(review.text)
             except:
                 break
 
-            #Review scores (contained in the css class, so it needs to be extracted and converted to int)
+            # Review scores (contained in the css class, so it needs to be extracted and converted to int)
             try:
                 score = review_block.find("div", {"class": "nf9vGX55"})
                 scores.append(int(score.find("span").get("class")[1][7]))
             except:
                 scores.append(-1)
 
-            #Trip information, not all the time, but most times, we have the itinerary, the region of travel and the class of travel
+            # Trip information, not all the time, but most times, we have the itinerary, the region of travel and the class of travel
             try:
                 tag = review_block.find("div", {"class": "hpZJCN7D"})
                 tags = tag.find_all("div", {"class": "_3tp-5a1G"})
@@ -90,12 +97,25 @@ for airline in airlines["airlines"]:
                 itineraries.append("")
                 regions.append("")
                 classes.append("")
-            
-        #Go to next page
+
+        # Go to next page
         if total_pages > 1:
-            url = url_prefix + "Reviews-or" + str((i + 1)*5) + "-" + url_suffix
-        
-      
-    #Files are saved for each company, since the process is quite lengthy, it was easier that way in case there is an interruption
-    reviews = pd.DataFrame({"reviews": reviews, "scores": scores, "itineraries": itineraries, "regions": regions, "classes": classes})
-    reviews.to_csv("../data/trip_advisor_reviews_" + airline + ".csv", sep = ",", index = False)
+            url = (
+                url_prefix + "Reviews-or" + str((i + 1) * 5) + "-" + url_suffix
+            )
+
+    # Files are saved for each company, since the process is quite lengthy, it was easier that way in case there is an interruption
+    reviews = pd.DataFrame(
+        {
+            "reviews": reviews,
+            "scores": scores,
+            "itineraries": itineraries,
+            "regions": regions,
+            "classes": classes,
+        }
+    )
+    reviews.to_csv(
+        "../data/trip_advisor_reviews_" + airline + ".csv",
+        sep=",",
+        index=False,
+    )
