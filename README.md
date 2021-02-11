@@ -11,6 +11,25 @@
   </tr>
  </table>
 
+ ## Team
+
+ <table>
+  <tr>
+    <td>Berradia Younes</td>
+    <td>Gautron Alexandra</td>
+    <td>Gouget Nicolas</td>
+    <td>Omari Yassine</td>
+    <td>Simon Oriane</td>
+  </tr>
+  <tr>
+    <td><img src="img/jums.png" ></td>
+    <td><img src="img/alex.png" ></td>
+    <td><img src="img/nico.png" ></td>
+    <td><img src="img/yassine.png" ></td>
+    <td><img src="img/oriane.png" ></td>
+  </tr>
+ </table>
+
 ## Description 
 
 The client, a player in the aeronautic industry, wants to understand how the user experience of airplane passengers can be improved. 
