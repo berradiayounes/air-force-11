@@ -26,7 +26,7 @@
     <td><img src="img/alex.png" ></td>
     <td><img src="img/nico.png" ></td>
     <td><img src="img/yassine.png" ></td>
-    <td><img src="img/oriane.png" ></td>
+    <td><img src="img/oriane2.png" ></td>
   </tr>
  </table>
 
