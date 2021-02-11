@@ -29,6 +29,20 @@ def scrape_skytrax():
             "Value For Money",
         ]
     )
+    
+    url = 'https://www.airlinequality.com/review-pages/a-z-airline-reviews/'
+    page = requests.get(url)
+    soup = BeautifulSoup(page.text)
+    soup2 = soup.find_all('div',{'class':'a_z_col_group'})
+
+    list_airlines = []
+    for i in soup2:
+        p = i.find_all('a')
+        for k in p:
+            k.get('href')
+            list_airlines.append(k.get('href'))
+        
+
     for i in tqdm(list_airlines):
         url = "https://www.airlinequality.com{}/page/1/?sortby=post_date%3ADesc&pagesize=10000".format(
             i
