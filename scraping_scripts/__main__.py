@@ -246,7 +246,51 @@ def merge_reviews():
     df3['Airline_Merge'] = df3['Airline'].str.replace(' ','').str.replace('-','').str.lower()
 
 
-    final_master_file = pd.merge(master_file, df3, left_on='Airline_Merge', right_on='Airline_Merge')
+    main_file = pd.merge(master_file, df3, left_on='Airline_Merge', right_on='Airline_Merge')
+    
+    main_file = main_file.rename(columns={'Rating' : 'Rating Airline from other file'})
+    main_file[['YEAR','MONTH', 'DAY']] = main_file['Date'].str.split('-',expand=True)
+    main_file[['YEAR','MONTH', 'DAY']] = main_file[['YEAR','MONTH', 'DAY']].astype(int)
+    main_file['Recommended'] = main_file['Recommended'].str.lower()
+    del main_file['Date']
+    
+    
+    #This filter will give you the data that includes only the starting year and above.
+    def filter_by_year(df, year):
+        output = df[df.YEAR >= year]
+        print(output.shape)
+        return output
+
+    #This filter will give you the data that includes only the type of category you choose.
+    # You may choose between 3 categories : "Full Service Carrier", "Low Cost Carrier" and "Regional Carrier"
+    def filter_by_category(df, category):
+        output = df[df.Category == category]
+        print(output.shape)
+        return output
+
+    #This filter will give you only the recommended ("yes") or not recommended ('no') data
+    def filter_by_recommended(df, answer):
+        output = df[df.Recommended == answer]
+        print(output.shape)
+        return output
+
+    #This will filter the dataset by seat type/class type.
+    # Economy Class           
+    # Business Class          
+    # Premium Economy Class     
+    # First Class               
+    def filter_by_class(df, CLASSE):
+        output = df[df.Class == CLASSE]
+        print(output.shape)
+        return output
+
+    #main_file = filter_by_year(main_file,2015)
+    #main_file = filter_by_category(main_file,"Full Service Carrier")
+    #main_file = filter_by_recommended(main_file, 'no')
+    #main_file = filter_by_class(main_file, 'First Class')
+    
+    final_master_file = main_file
+
     _ = final_master_file.to_csv('data/main_with_ratings_category.csv')
 
     return 0
