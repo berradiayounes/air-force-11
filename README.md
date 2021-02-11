@@ -99,6 +99,7 @@ For more info, click [here](https://packaging.python.org/guides/installing-using
 To setup the environment and the dependencies:
 
 ```bash
+python3 -m venv air-force-11
 python3 -m pip install -r requirements.txt
 ```
 
