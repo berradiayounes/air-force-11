@@ -4,7 +4,6 @@ import numpy as np
 # Gensim
 import gensim
 import gensim.corpora as corpora
-from gensim.utils import simple_preprocess
 from gensim.models import CoherenceModel
 
 # Enable logging for gensim
