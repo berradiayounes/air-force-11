@@ -15,7 +15,7 @@
 
 The client, a player in the aeronautic industry, wants to understand how the user experience of airplane passengers can be improved. 
 
-Several websites enable users to share their experience, thereby providing valuable data sources with large and various information. We choose to scrape **[Trip Advisor](https://www.tripadvisor.fr/Airlines)**, **[SkyTrax](https://www.airlinequality.com/review-pages/a-z-airline-reviews/)**, **[Airline Reviews](https://www.airlineratings.com/airline-passenger-reviews)** and **[Flight Report](https://flight-report.com/en/airline/)**.
+Several websites enable users to share their experience, thereby providing valuable data sources with large and various information. We choose to scrape **[Trip Advisor](https://www.tripadvisor.fr/Airlines)**, **[SkyTrax](https://www.airlinequality.com/review-pages/a-z-airline-reviews/)**, **[Airline Ratings](https://www.airlineratings.com/airline-passenger-reviews)** and **[Flight Report](https://flight-report.com/en/airline/)**.
 
 The goal is to leverage webscraping techniques, topic modelling and sentiment analysis algorithms to provide insights on possible business opportunities.
 
