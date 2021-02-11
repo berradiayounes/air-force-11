@@ -32,7 +32,8 @@ def main(method=METHOD_TOPIC_MODELING, from_scratch=False):
         df_preprocessed = preprocess(train_df)
     else:
         df_preprocessed = pd.read_csv(
-            PREPROCESSED_DATA_PATH, converters={f"{TRAIN_REVIEW_COLUMN}_preprocessed": eval}
+            PREPROCESSED_DATA_PATH,
+            converters={f"{TRAIN_REVIEW_COLUMN}_preprocessed": eval},
         )
 
     if not os.path.exists("results"):
@@ -51,7 +52,9 @@ def main(method=METHOD_TOPIC_MODELING, from_scratch=False):
 
     elif method == "nmf":
         embeddings, feature_names = get_embeddings_nmf(
-            df_preprocessed, review_column=f"{TRAIN_REVIEW_COLUMN}_preprocessed", verbose=True
+            df_preprocessed,
+            review_column=f"{TRAIN_REVIEW_COLUMN}_preprocessed",
+            verbose=True,
         )
         topic_dict = get_topics(
             embeddings,
@@ -70,7 +73,9 @@ def main(method=METHOD_TOPIC_MODELING, from_scratch=False):
         test_df = pd.read_excel(TEST_DATA_PATH)
     else:
         test_df = pd.read_csv(TEST_DATA_PATH)
-    sentiment_df = get_sentiments(test_df[[TEST_REVIEW_COLUMN]], aspects_list, TEST_REVIEW_COLUMN)
+    sentiment_df = get_sentiments(
+        test_df[[TEST_REVIEW_COLUMN]], aspects_list, TEST_REVIEW_COLUMN
+    )
     _ = sentiment_df.to_csv(f"results/sentiment_{method}.csv")
 
     return True
@@ -79,7 +84,9 @@ def main(method=METHOD_TOPIC_MODELING, from_scratch=False):
 if __name__ == "__main__":
     parser = ArgumentParser()
     _ = parser.add_argument("--from_scratch", "-fs", type=bool, default=False)
-    _ = parser.add_argument("--method", "-m", type=str, default=METHOD_TOPIC_MODELING)
+    _ = parser.add_argument(
+        "--method", "-m", type=str, default=METHOD_TOPIC_MODELING
+    )
     args = parser.parse_args()
     sys.exit(
         main(

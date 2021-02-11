@@ -23,7 +23,9 @@ class Preprocessor:
         self.omit = {"cancel", "covid", "cancelled"}
         self.omit.update(omit)
         name = "absa/classifier-rest-0.2"  # rest for restaurant
-        self.tokenizer = BertTokenizer.from_pretrained(name).basic_tokenizer.tokenize
+        self.tokenizer = BertTokenizer.from_pretrained(
+            name
+        ).basic_tokenizer.tokenize
 
     def preprocess_sentence(self, sentence):
         # Remove punctuation
@@ -33,7 +35,9 @@ class Preprocessor:
 
         # Tokenize words
         sentence = [
-            w for w in self.tokenizer(sentence) if not w in stopwords.words("english")
+            w
+            for w in self.tokenizer(sentence)
+            if not w in stopwords.words("english")
         ]
 
         # Empty review if it contains words in the omit set

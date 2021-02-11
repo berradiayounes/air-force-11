@@ -41,7 +41,9 @@ def scrape_tripadvisor():
         page = BeautifulSoup(driver.page_source)
         try:
             total_pages = int(
-                page.find("div", {"class": "pageNumbers"}).find_all("a")[-1].text
+                page.find("div", {"class": "pageNumbers"})
+                .find_all("a")[-1]
+                .text
             )
         except:  # If there's only one page of reviews, the div block named pageNumbers will not be present at the bottom of the page
             total_pages = 1
@@ -53,9 +55,13 @@ def scrape_tripadvisor():
             driver.get(url)
 
             # Scroll to load all reviews
-            driver.execute_script("window.scrollTo(0, document.body.scrollHeight)")
+            driver.execute_script(
+                "window.scrollTo(0, document.body.scrollHeight)"
+            )
             time.sleep(1)
-            driver.execute_script("window.scrollTo(0, document.body.scrollHeight)")
+            driver.execute_script(
+                "window.scrollTo(0, document.body.scrollHeight)"
+            )
 
             # Use beautiful soup to read page contents
             page = BeautifulSoup(driver.page_source)
@@ -100,7 +106,13 @@ def scrape_tripadvisor():
 
             # Go to next page
             if total_pages > 1:
-                url = url_prefix + "Reviews-or" + str((i + 1) * 5) + "-" + url_suffix
+                url = (
+                    url_prefix
+                    + "Reviews-or"
+                    + str((i + 1) * 5)
+                    + "-"
+                    + url_suffix
+                )
 
         # Files are saved for each company, since the process is quite lengthy, it was easier that way in case there is an interruption
         reviews = pd.DataFrame(
@@ -123,7 +135,9 @@ def scrape_tripadvisor():
     from os.path import isfile, join
 
     # Load all files that contain airline reviews
-    review_csvs = [f for f in listdir("../data/") if isfile(join("../data/", f))]
+    review_csvs = [
+        f for f in listdir("../data/") if isfile(join("../data/", f))
+    ]
 
     # Placeholder for final csv
     trip_advisor_reviews = pd.DataFrame(
@@ -141,12 +155,16 @@ def scrape_tripadvisor():
     for filename in tqdm(review_csvs):
         if "trip_advisor_reviews_" in filename:
             partial_reviews = pd.read_csv("../data/" + filename)
-            partial_reviews["airline"] = filename.split("reviews_")[1].split(".")[0]
+            partial_reviews["airline"] = filename.split("reviews_")[1].split(
+                "."
+            )[0]
             partial_reviews = partial_reviews.drop(
                 partial_reviews.loc[partial_reviews["scores"] == -1].index
             )
 
-            trip_advisor_reviews = pd.concat([trip_advisor_reviews, partial_reviews])
+            trip_advisor_reviews = pd.concat(
+                [trip_advisor_reviews, partial_reviews]
+            )
 
     # Write csv
     trip_advisor_reviews.to_csv(

@@ -17,7 +17,9 @@ logging.basicConfig(
 # Download File: http://mallet.cs.umass.edu/dist/mallet-2.0.8.zip
 
 
-def compute_coherence_values(dictionary, corpus, texts, limit, start=2, step=3):
+def compute_coherence_values(
+    dictionary, corpus, texts, limit, start=2, step=3
+):
     """
     Compute c_v coherence for various number of topics
 
@@ -38,7 +40,10 @@ def compute_coherence_values(dictionary, corpus, texts, limit, start=2, step=3):
     model_list = []
     for num_topics in range(start, limit + 1, step):
         model = gensim.models.wrappers.LdaMallet(
-            mallet_path, corpus=corpus, num_topics=num_topics, id2word=dictionary
+            mallet_path,
+            corpus=corpus,
+            num_topics=num_topics,
+            id2word=dictionary,
         )
         model_list.append(model)
         coherencemodel = CoherenceModel(

@@ -4,7 +4,9 @@ import time
 import pandas as pd
 
 # Define driver
-driver = webdriver.Chrome("../../../chromedriver")  # adapt based on your arborescence
+driver = webdriver.Chrome(
+    "../../../chromedriver"
+)  # adapt based on your arborescence
 
 # Write function to iterate through pages
 def _find_element_click(
@@ -24,9 +26,13 @@ def _find_element_click(
     end_time = time.time() + 60
     while True:
         try:
-            driver.execute_script("window.scrollTo(0, document.body.scrollHeight)")
+            driver.execute_script(
+                "window.scrollTo(0, document.body.scrollHeight)"
+            )
             time.sleep(2)
-            driver.execute_script("window.scrollTo(0, document.body.scrollHeight)")
+            driver.execute_script(
+                "window.scrollTo(0, document.body.scrollHeight)"
+            )
             web_element = driver.find_element(by=by, value=expression)
             web_element.click()
             return True
@@ -54,9 +60,9 @@ def get_tripadvisor_airlines():
     for i in range(total_pages - 1):
         page = BeautifulSoup(driver.page_source)
 
-        for airline in page.find("div", {"class": "mainColumnContent"}).find_all(
-            "div", {"class": "airlineSummary"}
-        ):
+        for airline in page.find(
+            "div", {"class": "mainColumnContent"}
+        ).find_all("div", {"class": "airlineSummary"}):
             if "[no longer operating]" not in airline.text:
                 airlines.append(airline.find("div").text)
                 links.append(airline.find("a").get("href"))
@@ -81,7 +87,9 @@ def get_tripadvisor_airlines():
     airline_info = pd.DataFrame(
         {"airlines": airlines, "links": links, "review_count": review_count}
     )
-    airline_info.to_csv("data/airline_links_tripadvisor.csv", sep=",", index=False)
+    airline_info.to_csv(
+        "data/airline_links_tripadvisor.csv", sep=",", index=False
+    )
 
     return True
 

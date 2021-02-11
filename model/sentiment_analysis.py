@@ -5,7 +5,9 @@ from transformers import BertTokenizer
 from tqdm import tqdm
 
 
-def create_absa_pipeline(default_model=True, model_name="absa/classifier-rest-0.2"):
+def create_absa_pipeline(
+    default_model=True, model_name="absa/classifier-rest-0.2"
+):
     """
     Initialize the pipeline according to the desired model.
 
