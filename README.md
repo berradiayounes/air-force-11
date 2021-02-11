@@ -76,9 +76,9 @@ The preprocessing step consists of the following steps:
 
 * **Topic Modeling**
 
-We implemeted two different approaches : **LDA with gensim** and **Non-negative matrix factorization (NMF)**
+We implemeted two different approaches : **LDA with gensim** and **Non-negative matrix factorization (NMF)**.
 
-However we chose to go with NMF embeddings as they were faster
+However we chose to go with NMF embeddings as they were faster.
 
 * **Aspect Based Sentiment Analysis**
  
