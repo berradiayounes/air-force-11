@@ -11,6 +11,42 @@
   </tr>
  </table>
 
+## Description 
+
+The client, a player in the aeronautic industry, wants to understand how the user experience of airplane passengers can be improved. 
+Several websites enable users to share their experience, thereby providing valuable data sourceswith large and various information. We choose to scrape **Trip Advisor**, **SkyTrax**, **Airline Reviews** and **Flight Report**. 
+The goal is to leverage webscrapingtechniques, topic modelling and sentiment analysis algorithms as well as your business sense to provide insights on possible business opportunities.
+
+## Approach
+
+Our approach is the following:
+<img src="img/approach.png">
+
+## Model 
+<img src="img/model.png">
+
+## Repository Architecture
+
+```
+air-force-11
+├── img
+│   └── Images for README.md
+├── model
+│     ├── __init.py__
+│     │── embedding_nmf.py
+│     │── preprocess.py
+│     │── sentiment_analysis.py
+│     └── topic_modeling_gensim.py
+├── scraping_scripts
+│     ├── __main.py__ 
+│     │── airlineratings_airline_categories_and_ratings.py 
+│     │── airlineratings.py
+│     │── flight_report.py
+│     │── trip_advisor_airlines.py
+│     └── trip_advisor.py
+├── requirements.txt
+└── main.py
+```
 
 ## Setup python project
 
@@ -26,7 +62,14 @@ For more info, click [here](https://packaging.python.org/guides/installing-using
 To setup the environment and the dependencies:
 
 ```bash
-python3 -m venv air-force-11
+curl -O "http://mallet.cs.umass.edu/dist/mallet-2.0.8.zip"
+unzip mallet-2.0.8.zip 
+```
+
+When using gensim to genrate features, you need to download the corpus `mallet-2.0.8`
+
+```bash
+curl
 python3 -m pip install -r requirements.txt
 ```
 
@@ -62,7 +105,6 @@ python main.py
     python main.py --method gensim
     ```
     Use LDA to generate topics
-
 
 ## Linting
 
