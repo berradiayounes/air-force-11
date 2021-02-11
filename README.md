@@ -172,12 +172,12 @@ python main.py
         ```bash
         python scraping_scripts/skytrax.py
         ```
-    * **Flight Report**
+  * **Flight Report**
       * Get Airline Reviews and Ratings
         ```bash
         python scraping_scripts/flight_report.py
         ```
-    Finally, to get the concatenated reviews:
+  * **Finally**, to get the concatenated reviews:
     ```bash
     python scraping_scripts
     ```
