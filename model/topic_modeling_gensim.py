@@ -44,6 +44,21 @@ def compute_coherence_values(dictionary, corpus, texts, limit, start=2, step=3):
 
 
 def topic_modeling(preprocessed_data, start, limit, step, num_words_per_topic):
+    """
+    Perform topic modeling using Gensim, find the optimal number of topics and the associated keywords.
+
+    Parameters:
+    ----------
+    preprocessed_data : Reviews dataframe after preprocessing step
+    start : Minimum number of topics considered
+    limit : Maximum number of topics considered
+    step : Increment during the search of the optimal number of topics
+    num_words_per_topic : Number of words to display per topic
+
+    Returns:
+    -------
+    topic_keywords : Dictionary with the topics and the associated keywords
+    """
     # Create Dictionary
     id2word = corpora.Dictionary(preprocessed_data)
     # Create Corpus
