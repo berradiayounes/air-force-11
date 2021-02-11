@@ -15,9 +15,9 @@
 
 The client, a player in the aeronautic industry, wants to understand how the user experience of airplane passengers can be improved. 
 
-Several websites enable users to share their experience, thereby providing valuable data sources with large and various information. We choose to scrape **[Trip Advisor](https://www.tripadvisor.fr/Airlines)**, **[SkyTrax](https://www.airlinequality.com/review-pages/a-z-airline-reviews/)**, **[Airline Reviews](https://www.airlineratings.com/airline-passenger-reviews)** and **[Flight Report](https://flight-report.com/en/airline/)**.
+Several websites enable users to share their experience, thereby providing valuable data sources with large and various information. We choose to scrape **[Trip Advisor](https://www.tripadvisor.fr/Airlines)**, **[SkyTrax](https://www.airlinequality.com/review-pages/a-z-airline-reviews/)**, **[Airline Ratings](https://www.airlineratings.com/airline-passenger-reviews)** and **[Flight Report](https://flight-report.com/en/airline/)**.
 
-The goal is to leverage webscraping techniques, topic modelling and sentiment analysis algorithms to provide insights on possible business opportunities.
+The goal is to leverage webscraping techniques, topic modeling and sentiment analysis algorithms to provide insights on possible business opportunities.
 
 ## Repository Architecture
 
@@ -48,18 +48,18 @@ air-force-11
 
 ## Scraping
 
-In the folder scraping_scripts, you can find all the scripts used to scrape the websites cited before
+In the folder scraping_scripts, you can find all the scripts used to scrape the websites cited above.
 
 We used the libraries **Request**, **Beautiful Soup (bs4)** and **Selenium** to get the reviews
 
-Each scripts is specific to the website, but the core approach is the same for the website we had:
+Each script is specific to the website, but the core approach is the same for the website we surveyed:
 
 1. Get the airline names and the links to the page where the reviews can be found
 2. For each of those links, extract the reviews found
 
-First step explains why you can find two scripts, the first one for the first part and the second for the second part
+First step explains why you can find two scripts, the first one for the first part and the second for the second part.
 
-Finally, once all websites are scraped, you can concanate them using the script in **__main__.py**
+Eventually, once all websites are scraped, you can concanate them using the script in **__main__.py**
 
 ## Model 
 
@@ -76,9 +76,9 @@ The preprocessing step consists of the following steps:
 
 * **Topic Modeling**
 
-We implemeted two different approaches : **LDA with gensim** and **Non-negative matrix factorization (NMF)**
+We implemeted two different approaches : **LDA with gensim** and **Non-negative matrix factorization (NMF)**.
 
-However we chose to go with NMF embeddings as they were faster
+However we chose to go with NMF embeddings as they were faster.
 
 * **Aspect Based Sentiment Analysis**
  
