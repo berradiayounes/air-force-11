@@ -81,7 +81,7 @@ def get_tripadvisor_airlines():
     airline_info = pd.DataFrame(
         {"airlines": airlines, "links": links, "review_count": review_count}
     )
-    airline_info.to_csv("../data/airline_links_tripadvisor.csv", sep=",", index=False)
+    airline_info.to_csv("data/airline_links_tripadvisor.csv", sep=",", index=False)
 
     return True
 

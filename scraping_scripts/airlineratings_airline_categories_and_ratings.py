@@ -69,7 +69,7 @@ def airlineratings_scraping():
             )
 
     df_airlines.to_csv(
-        "airlineratings_categories_and_ratings.csv", sep=",", index=False
+        "data/airlineratings_categories_and_ratings.csv", sep=",", index=False
     )
 
     return True

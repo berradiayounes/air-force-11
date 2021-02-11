@@ -225,7 +225,7 @@ def airlineratings_scraping(url):
                     comments_airline, reviews_df
                 )
 
-    reviews_df.to_csv("airlineratings.csv", sep="\t", index=False, encoding="utf-8-sig")
+    reviews_df.to_csv("data/airlineratings.csv", sep="\t", index=False, encoding="utf-8-sig")
 
     return True
 

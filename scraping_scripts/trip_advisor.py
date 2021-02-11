@@ -9,10 +9,10 @@ from tqdm import tqdm
 
 def scrape_tripadvisor():
     # Driver
-    driver = webdriver.Chrome("../../../chromedriver")
+    driver = webdriver.Chrome("./chromedriver")
 
     # Load airline urls (the csv file is written after running trip_advisor_airlines.py)
-    airlines = pd.read_csv("../data/airline_links_tripadvisor.csv", sep=",")
+    airlines = pd.read_csv("data/airline_links_tripadvisor.csv", sep=",")
 
     # Go through all the pages of reviews
     for airline in airlines["airlines"]:
@@ -113,7 +113,7 @@ def scrape_tripadvisor():
             }
         )
         reviews.to_csv(
-            "../data/trip_advisor_reviews_" + airline + ".csv",
+            "data/trip_advisor_reviews_" + airline + ".csv",
             sep=",",
             index=False,
         )

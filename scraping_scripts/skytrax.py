@@ -288,7 +288,7 @@ def scrape_skytrax():
             )
             main_df = main_df.append(df1)
 
-    _ = main_df.to_csv("5thScrapping.csv", sep="\t", index=False, encoding="utf-8-sig")
+    _ = main_df.to_csv("data/skytrax.csv", sep="\t", index=False, encoding="utf-8-sig")
 
     return True
 
