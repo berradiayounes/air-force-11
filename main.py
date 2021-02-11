@@ -5,13 +5,14 @@ import os
 from model.preprocess import Preprocessor
 from model.topic_modeling_gensim import topic_modeling
 from model.embedding_nmf import get_embeddings_nmf, get_topics
+from model.sentiment_analysis import get_sentiments
 
 DATA_PATH = "data/main.csv"
 REVIEW_COLUMN = "Review Body"
 METHOD_TOPIC_MODELING = "gensim"
 
 def preprocess(df):
-    preprocessor = Preprocessor()
+    preprocessor = Preprocessor(stem=False)
     df_preprocessed = preprocessor.preprocess(df, REVIEW_COLUMN)
     df_preprocessed.to_csv("data/main_preprocessed.csv")
 
@@ -41,6 +42,9 @@ def main(method=METHOD_TOPIC_MODELING):
             verbose=True,
         )
         _ = topic_df.to_csv(f"topics_{method}.csv")
+
+    sentiment_df = get_sentiments(df_preprocessed[[REVIEW_COLUMN]], topic_df)
+    _ = sentiment_df.to_csv(f"sentiment_{method}.csv")
 
     return 0
 

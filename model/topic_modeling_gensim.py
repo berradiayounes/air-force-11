@@ -33,7 +33,7 @@ def compute_coherence_values(dictionary, corpus, texts, limit, start=2, step=3):
     model_list : List of LDA topic models
     coherence_values : Coherence values corresponding to the LDA model with respective number of topics
     """
-    mallet_path = "./mallet-2.0.8/bin/mallet"
+    mallet_path = "model/mallet-2.0.8/bin/mallet"
     coherence_values = []
     model_list = []
     for num_topics in range(start, limit + 1, step):
@@ -51,7 +51,7 @@ def compute_coherence_values(dictionary, corpus, texts, limit, start=2, step=3):
 
 def topic_modeling(preprocessed_data, start, limit, step, num_words_per_topic):
     """
-    Perform topic modeling using Gensim, find the optimal number of topics 
+    Perform topic modeling using Gensim, find the optimal number of topics
     and the associated keywords.
 
     Parameters:
@@ -70,7 +70,7 @@ def topic_modeling(preprocessed_data, start, limit, step, num_words_per_topic):
     id2word = corpora.Dictionary(preprocessed_data)
     # Create Corpus
     texts = preprocessed_data
-    # Term Document Frequency ("doc2bow" converts document into the bag-of-words 
+    # Term Document Frequency ("doc2bow" converts document into the bag-of-words
     # (BoW) format = list of (token_id, token_count) tuples.)
     corpus = [id2word.doc2bow(text) for text in texts]
 

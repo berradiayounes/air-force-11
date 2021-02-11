@@ -1,6 +1,7 @@
 # Files and folders
 \.DS_Store
 data/
+mallet-2.0.8/
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

@@ -5,6 +5,7 @@ import pandas as pd
 
 DATA_PATH = "data/main.csv"
 
+
 def get_topics(embeddings, feature_names, n_top_words, verbose):
     _, r = embeddings.shape
     topic_dict = {}
@@ -48,9 +49,7 @@ def get_embeddings_nmf(
 
 
 if __name__ == "__main__":
-    embeddings, feature_names = get_embeddings_nmf(
-        DATA_PATH, verbose=True
-    )
+    embeddings, feature_names = get_embeddings_nmf(DATA_PATH, verbose=True)
     topic_dict = get_topics(
         embeddings,
         feature_names,
