@@ -12,7 +12,7 @@ from model.sentiment_analysis import get_sentiments
 DATA_PATH = "data/main_with_ratings_category.csv"
 PREPROCESSED_DATA_PATH = DATA_PATH.replace(".csv", "_preprocessed.csv")
 REVIEW_COLUMN = "Review Body"
-METHOD_TOPIC_MODELING = "gensim"
+METHOD_TOPIC_MODELING = "nmf"
 
 def preprocess(df):
     preprocessor = Preprocessor(stem=False)
