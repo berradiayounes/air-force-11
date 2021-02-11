@@ -44,7 +44,7 @@ air-force-11
 
 ## Approach
 
-<img src="img/approach.png">
+<img src="img/approach_new.png">
 
 ## Scraping
 
