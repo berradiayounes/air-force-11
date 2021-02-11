@@ -47,6 +47,7 @@ def get_aspects_for_review(review, all_aspects):
 def get_sentiments(
     reviews,
     all_aspects,
+    review_column,
     default_model=True,
     model_name="absa/classifier-rest-0.2",
     verbose=True,
@@ -75,7 +76,7 @@ def get_sentiments(
     reviews = reviews.head(20)
 
     for i in tqdm(reviews.index):
-        review = reviews.at[i, "review"]
+        review = reviews.at[i, review_column]
         aspects = get_aspects_for_review(review, all_aspects)
 
         if aspects != []:

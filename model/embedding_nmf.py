@@ -25,13 +25,13 @@ def get_topics(embeddings, feature_names, n_top_words, verbose):
 
 
 def get_embeddings_nmf(
-    path,
+    data,
     review_column="review",
     n_features=50,
     n_components=5,
     verbose=False,
 ):
-    dataset = pd.read_csv(path, na_values="")[review_column].dropna()
+    dataset = data[review_column].dropna()
     dataset = dataset.apply(lambda l: " ".join(l)).values
 
     tfidf_vectorizer = TfidfVectorizer(
@@ -50,7 +50,8 @@ def get_embeddings_nmf(
 
 
 if __name__ == "__main__":
-    embeddings, feature_names = get_embeddings_nmf(DATA_PATH, verbose=True)
+    data = pd.read_csv(DATA_PATH, na_values="")
+    embeddings, feature_names = get_embeddings_nmf(data, verbose=True)
     topic_dict = get_topics(
         embeddings,
         feature_names,

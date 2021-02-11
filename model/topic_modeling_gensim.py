@@ -38,7 +38,7 @@ def compute_coherence_values(dictionary, corpus, texts, limit, start=2, step=3):
     model_list = []
     for num_topics in range(start, limit + 1, step):
         model = gensim.models.wrappers.LdaMallet(
-            mallet_path, corpus=corpus, num_topics=num_topics, id2word=id2word
+            mallet_path, corpus=corpus, num_topics=num_topics, id2word=dictionary
         )
         model_list.append(model)
         coherencemodel = CoherenceModel(

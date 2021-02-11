@@ -2,6 +2,7 @@
 \.DS_Store
 data/
 mallet-2.0.8/
+results/
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

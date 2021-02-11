@@ -1,6 +1,8 @@
 import pandas as pd 
 import numpy as np
 import os
+import sys
+from argparse import ArgumentParser
 
 from model.preprocess import Preprocessor
 from model.topic_modeling_gensim import topic_modeling
@@ -15,14 +17,18 @@ METHOD_TOPIC_MODELING = "gensim"
 def preprocess(df):
     preprocessor = Preprocessor(stem=False)
     df_preprocessed = preprocessor.preprocess(df, REVIEW_COLUMN)
-    df_preprocessed.to_csv(PREPROCESSED_DATA_PATH)
+    df_preprocessed.to_csv(PREPROCESSED_DATA_PATH, index=False)
 
     return df_preprocessed
 
 
-def main(method=METHOD_TOPIC_MODELING):
+def main(method=METHOD_TOPIC_MODELING, from_scratch=False):
     df = pd.read_csv(DATA_PATH)
-    df_preprocessed = preprocess(df)
+    if from_scratch:
+        print("PREP")
+        df_preprocessed = preprocess(df)
+    else:
+        df_preprocessed = pd.read_csv(PREPROCESSED_DATA_PATH,  converters={f"{REVIEW_COLUMN}_preprocessed": eval})
 
     if not os.path.exists("results"):
         os.makedirs("results")
@@ -34,7 +40,7 @@ def main(method=METHOD_TOPIC_MODELING):
 
     elif method == "nmf":
         embeddings, feature_names = get_embeddings_nmf(
-            PREPROCESSED_DATA_PATH, review_column=f"{REVIEW_COLUMN}_preprocessed", verbose=True
+            df_preprocessed, review_column=f"{REVIEW_COLUMN}_preprocessed", verbose=True
         )   
         topic_dict = get_topics(
             embeddings,
@@ -42,12 +48,25 @@ def main(method=METHOD_TOPIC_MODELING):
             n_top_words=5,
             verbose=True,
         )
+        topic_df = pd.DataFrame(topic_dict)
         _ = topic_df.to_csv(f"topics_{method}.csv")
 
-    sentiment_df = get_sentiments(df[[REVIEW_COLUMN]], topic_df)
+    aspects_list = []
+    for new_aspects in topic_dict.values():
+        aspects_list = [*aspects_list, *new_aspects]
+    sentiment_df = get_sentiments(df[[REVIEW_COLUMN]], aspects_list, REVIEW_COLUMN)
     _ = sentiment_df.to_csv(f"sentiment_{method}.csv")
 
     return 0
 
 if __name__ == "__main__":
-    _ = main()
+    parser = ArgumentParser()
+    _ = parser.add_argument("--from_scratch", "-fs", type=bool, default=False)
+    _ = parser.add_argument("--method", "-m", type=str, default=METHOD_TOPIC_MODELING)
+    args = parser.parse_args()
+    sys.exit(
+        main(
+            method=args.method,
+            from_scratch=args.from_scratch,
+        )
+    )
