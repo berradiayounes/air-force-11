@@ -31,7 +31,8 @@ def get_embeddings_nmf(
     n_components=5,
     verbose=False,
 ):
-    dataset = pd.read_csv(path, na_values="")[review_column].dropna().values
+    dataset = pd.read_csv(path, na_values="")[review_column].dropna()
+    dataset = dataset.apply(lambda l: " ".join(l)).values
 
     tfidf_vectorizer = TfidfVectorizer(
         max_df=0.5,  # max doc freq (as a fraction) of any word to include in the vocabulary
