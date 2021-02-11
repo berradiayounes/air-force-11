@@ -3,6 +3,7 @@ from sklearn.datasets import fetch_20newsgroups
 from sklearn.decomposition import NMF
 import pandas as pd
 
+DATA_PATH = "data/main.csv"
 
 def get_topics(embeddings, feature_names, n_top_words, verbose):
     _, r = embeddings.shape
@@ -11,10 +12,7 @@ def get_topics(embeddings, feature_names, n_top_words, verbose):
         topic = embeddings[:, topic_idx]
         message = "Topic #%d: " % topic_idx
         message += " ".join(
-            [
-                feature_names[i]
-                for i in topic.argsort()[: -n_top_words - 1 : -1]
-            ]
+            [feature_names[i] for i in topic.argsort()[: -n_top_words - 1 : -1]]
         )
         if verbose:
             print(message)
@@ -50,7 +48,9 @@ def get_embeddings_nmf(
 
 
 if __name__ == "__main__":
-    embeddings, feature_names = get_embeddings_nmf("data/flight_report.csv", verbose=True)
+    embeddings, feature_names = get_embeddings_nmf(
+        DATA_PATH, verbose=True
+    )
     topic_dict = get_topics(
         embeddings,
         feature_names,
