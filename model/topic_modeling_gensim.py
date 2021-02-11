@@ -43,7 +43,7 @@ def compute_coherence_values(dictionary, corpus, texts, limit, start=2, step=3):
 
 
 
-def topic_modeling(preprocessed_data, start, limit, step):
+def topic_modeling(preprocessed_data, start, limit, step, num_words_per_topic):
     # Create Dictionary
     id2word = corpora.Dictionary(preprocessed_data)
     # Create Corpus
@@ -60,7 +60,7 @@ def topic_modeling(preprocessed_data, start, limit, step):
                                                             step=step)
 
     optimal_model = model_list[np.argmax(coherence_values)]
-    model_topics = optimal_model.show_topics(formatted=False)
+    model_topics = optimal_model.show_topics(formatted=False, num_words=num_words_per_topic)
 
     topic_keywords = {}
     for topic_number in range(len(model_topics)):
