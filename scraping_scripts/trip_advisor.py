@@ -119,3 +119,25 @@ for airline in airlines["airlines"]:
         sep=",",
         index=False,
     )
+
+# Merge all airline files into one
+from os import listdir
+from os.path import isfile, join
+
+# Load all files that contain airline reviews
+review_csvs = [f for f in listdir("../data/") if isfile(join("../data/", f))]
+
+# Placeholder for final csv 
+trip_advisor_reviews = pd.DataFrame({"airline": [], "reviews": [], "scores": [], "itineraries": [], "regions": [], "classes": []})
+
+# Concatenate reviews
+for filename in tqdm(review_csvs):
+    if "trip_advisor_reviews_" in filename:
+        partial_reviews = pd.read_csv("../data/" + filename)
+        partial_reviews["airline"] = filename.split("reviews_")[1].split(".")[0]
+        partial_reviews = partial_reviews.drop(partial_reviews.loc[partial_reviews["scores"] == -1].index)
+
+        trip_advisor_reviews = pd.concat([trip_advisor_reviews, partial_reviews])
+
+# Write csv
+trip_advisor_reviews.to_csv("../data/trip_advisor_reviews.csv", sep=",", encoding="utf8")
