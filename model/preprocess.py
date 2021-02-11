@@ -22,7 +22,7 @@ class Preprocessor:
         self.stemmer = PorterStemmer()
         self.omit = {"cancel", "covid", "cancelled"}
         self.omit.update(omit)
-        name = 'absa/classifier-rest-0.2' # rest for restaurant
+        name = "absa/classifier-rest-0.2"  # rest for restaurant
         self.tokenizer = BertTokenizer.from_pretrained(name).basic_tokenizer.tokenize
 
     def preprocess_sentence(self, sentence):
@@ -31,27 +31,14 @@ class Preprocessor:
             [c.lower() for c in sentence if c not in string.punctuation]
         ).strip()
 
-        # Keep only reviews in english
-        if sentence == "":
-            return sentence
-
-        review_language = detect(sentence)
-
-        if review_language != "en":
-            return ""
-
         # Tokenize words
-        sentence = (
-            [
-                w
-                for w in self.tokenizer(sentence)
-                if not w in stopwords.words("english")
-            ]
-        )
+        sentence = [
+            w for w in self.tokenizer(sentence) if not w in stopwords.words("english")
+        ]
 
         # Empty review if it contains words in the omit set
         if self.omit.intersection(sentence):
-            sentence = ""
+            sentence = np.nan
 
         # Stem words
         if self.stem:
@@ -65,4 +52,5 @@ class Preprocessor:
         df[f"{review_col}_preprocessed"] = df[review_col].progress_apply(
             self.preprocess_sentence
         )
+        df = df.dropna(subset=[f"{review_col}_preprocessed"])
         return df

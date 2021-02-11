@@ -228,9 +228,9 @@ def merge_reviews():
     master_file = master_file.append(skytrax_df_rearranged)
     master_file["Review Body"] = (
         master_file["Review Body"]
-        .dropna(subset=["Review Body"])
+        .dropna()
         .progress_apply(keep_only_english_non_empty)
-        .dropna(subset=["Review Body"])
+        .dropna()
     )
     master_file.to_csv("data/main_with_ratings.csv", index=False)
 
