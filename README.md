@@ -14,7 +14,9 @@
 ## Description 
 
 The client, a player in the aeronautic industry, wants to understand how the user experience of airplane passengers can be improved. 
-Several websites enable users to share their experience, thereby providing valuable data sourceswith large and various information. We choose to scrape **Trip Advisor**, **SkyTrax**, **Airline Reviews** and **Flight Report**. 
+
+Several websites enable users to share their experience, thereby providing valuable data sourceswith large and various information. We choose to scrape **Trip Advisor**, **SkyTrax**, **Airline Reviews** and **Flight Report**.
+
 The goal is to leverage webscrapingtechniques, topic modelling and sentiment analysis algorithms as well as your business sense to provide insights on possible business opportunities.
 
 ## Repository Architecture
@@ -22,7 +24,7 @@ The goal is to leverage webscrapingtechniques, topic modelling and sentiment ana
 ```
 air-force-11
 ├── img
-│   └── Images for README.md
+│   └── Images for README
 ├── model
 │     ├── __init.py__
 │     │── embedding_nmf.py
@@ -42,12 +44,30 @@ air-force-11
 
 ## Approach
 
-Our approach is the following:
 <img src="img/approach.png">
 
 ## Model 
+
 <img src="img/model.png">
 
+* **Preprocessing**
+
+The preprocessing step consists of the following steps:
+1. Remove ponctuation
+2. Remove stopwords
+3. Tokenization using a pretrained BERT Tokenizer
+4. Remove reviews that speaks about covid and canceled flights
+5. Lemmatization
+
+* **Topic Modeling**
+
+We implemeted two different approaches : **LDA with gensim** and **Non-negative matrix factorization (NMF)**
+
+However we chose to go with NMF embeddings as they were faster
+
+* **Aspect Based Sentiment Analysis**
+ 
+Using the topics extracted via the topic modeling step, we used the library **[aspect-based-sentiment-analysis](https://pypi.org/project/aspect-based-sentiment-analysis/)** to extract the sentiment of the reviews with regards to each of those topics
 
 
 ## Setup python project
@@ -64,20 +84,19 @@ For more info, click [here](https://packaging.python.org/guides/installing-using
 To setup the environment and the dependencies:
 
 ```bash
-curl -O "http://mallet.cs.umass.edu/dist/mallet-2.0.8.zip"
-unzip mallet-2.0.8.zip 
+python3 -m pip install -r requirements.txt
 ```
 
 When using gensim to genrate features, you need to download the corpus `mallet-2.0.8`
 
 ```bash
-curl
-python3 -m pip install -r requirements.txt
+curl -O "http://mallet.cs.umass.edu/dist/mallet-2.0.8.zip"
+unzip mallet-2.0.8.zip 
 ```
 
 ## Command Line Instructions (CLI)
 
-### Activate the pipenv environment
+### Activate the virtual environment
 
 ```bash
 source air-force-11/bin/activate
