@@ -59,7 +59,7 @@ Each script is specific to the website, but the core approach is the same for th
 
 First step explains why you can find two scripts, the first one for the first part and the second for the second part.
 
-Eventually, once all websites are scraped, you can concanate them using the script in **__main__.py**
+Eventually, once all websites are scraped, you can concanate them using the script in **__main__.py**.
 
 ## Model 
 
