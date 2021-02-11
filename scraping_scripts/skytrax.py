@@ -5,7 +5,6 @@ from tqdm import tqdm
 import numpy as np
 
 
-
 def scrape_skytrax():
     main_df = pd.DataFrame(
         columns=[
@@ -46,9 +45,9 @@ def scrape_skytrax():
 
             nb_of_review = nb_of_review + 1
 
-            date_published = review.find(
-                "meta", {"itemprop": "datePublished"}
-            ).get("content")
+            date_published = review.find("meta", {"itemprop": "datePublished"}).get(
+                "content"
+            )
 
             if review.find("span", {"itemprop": "ratingValue"}) == None:
                 rating_out_of_10 = "NA"
@@ -67,15 +66,10 @@ def scrape_skytrax():
 
             if review.find("div", {"class": "text_content"}) == None:
                 is_verified = "no"
-            elif (
-                review.find("div", {"class": "text_content"}).find("strong")
-                == None
-            ):
+            elif review.find("div", {"class": "text_content"}).find("strong") == None:
                 is_verified = "no"
             elif (
-                review.find("div", {"class": "text_content"})
-                .find("strong")
-                .find("em")
+                review.find("div", {"class": "text_content"}).find("strong").find("em")
                 == None
             ):
                 is_verified = "no"
@@ -296,7 +290,8 @@ def scrape_skytrax():
 
     _ = main_df.to_csv("5thScrapping.csv", sep="\t", index=False, encoding="utf-8-sig")
 
-    return 0
+    return True
 
-    if __name__ == "__main__":
-        _ = scrape_skytrax()
+
+if __name__ == "__main__":
+    _ = scrape_skytrax()

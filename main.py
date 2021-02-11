@@ -1,4 +1,4 @@
-import pandas as pd 
+import pandas as pd
 import numpy as np
 import os
 import sys
@@ -14,6 +14,7 @@ PREPROCESSED_DATA_PATH = DATA_PATH.replace(".csv", "_preprocessed.csv")
 REVIEW_COLUMN = "Review Body"
 METHOD_TOPIC_MODELING = "nmf"
 
+
 def preprocess(df):
     preprocessor = Preprocessor(stem=False)
     df_preprocessed = preprocessor.preprocess(df, REVIEW_COLUMN)
@@ -28,20 +29,28 @@ def main(method=METHOD_TOPIC_MODELING, from_scratch=False):
         print("PREP")
         df_preprocessed = preprocess(df)
     else:
-        df_preprocessed = pd.read_csv(PREPROCESSED_DATA_PATH,  converters={f"{REVIEW_COLUMN}_preprocessed": eval})
+        df_preprocessed = pd.read_csv(
+            PREPROCESSED_DATA_PATH, converters={f"{REVIEW_COLUMN}_preprocessed": eval}
+        )
 
     if not os.path.exists("results"):
         os.makedirs("results")
-        
+
     if method == "gensim":
-        topic_dict = topic_modeling(df_preprocessed[f"{REVIEW_COLUMN}_preprocessed"], start=2, limit=8, step=1, num_words_per_topic=5)
+        topic_dict = topic_modeling(
+            df_preprocessed[f"{REVIEW_COLUMN}_preprocessed"],
+            start=2,
+            limit=8,
+            step=1,
+            num_words_per_topic=5,
+        )
         topic_df = pd.DataFrame(topic_dict)
         _ = topic_df.to_csv(f"topics_{method}.csv")
 
     elif method == "nmf":
         embeddings, feature_names = get_embeddings_nmf(
             df_preprocessed, review_column=f"{REVIEW_COLUMN}_preprocessed", verbose=True
-        )   
+        )
         topic_dict = get_topics(
             embeddings,
             feature_names,
@@ -58,6 +67,7 @@ def main(method=METHOD_TOPIC_MODELING, from_scratch=False):
     _ = sentiment_df.to_csv(f"sentiment_{method}.csv")
 
     return 0
+
 
 if __name__ == "__main__":
     parser = ArgumentParser()

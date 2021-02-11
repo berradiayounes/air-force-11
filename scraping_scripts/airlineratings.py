@@ -34,9 +34,7 @@ def collect_reviews_and_infos_on_one_page(comments_airline, reviews_df):
             .find_all("p")[0]
             .text
         )
-        country = country[
-            country.find("from ") + len("from ") : country.rfind(" -")
-        ]
+        country = country[country.find("from ") + len("from ") : country.rfind(" -")]
 
         # get date
         date = (
@@ -51,15 +49,13 @@ def collect_reviews_and_infos_on_one_page(comments_airline, reviews_df):
 
         # get ratings by category
         ratings = {}
-        li = feedback.find_all("div", {"class": "passenger_ratings"})[
-            0
-        ].find_all("li")
+        li = feedback.find_all("div", {"class": "passenger_ratings"})[0].find_all("li")
         for el in li:
             rating_cat = el.find_all("h4")[0].text
             if len(el.find_all("div", {"class": "rating"})) > 0:
-                rating_value = el.find_all("div", {"class": "rating"})[0].get(
-                    "style"
-                )[7:]
+                rating_value = el.find_all("div", {"class": "rating"})[0].get("style")[
+                    7:
+                ]
             ratings[rating_cat] = rating_value
 
         # get rating for 'Overall Value for Money'
@@ -105,9 +101,9 @@ def collect_reviews_and_infos_on_one_page(comments_airline, reviews_df):
             rating_mb = np.nan
 
         # get recommandation info
-        recommandation = feedback.find_all(
-            "div", {"class": "passenger_ratings"}
-        )[0].find_all("li")[-1]
+        recommandation = feedback.find_all("div", {"class": "passenger_ratings"})[
+            0
+        ].find_all("li")[-1]
         if recommandation.find_all("h4")[0].text == "Recommend Airline":
             recommend = recommandation.find_all("span")[0].text
         else:
@@ -229,6 +225,10 @@ def airlineratings_scraping(url):
                     comments_airline, reviews_df
                 )
 
-    reviews_df.to_csv(
-        "airlineratings.csv", sep="\t", index=False, encoding="utf-8-sig"
-    )
+    reviews_df.to_csv("airlineratings.csv", sep="\t", index=False, encoding="utf-8-sig")
+
+    return True
+
+
+if __name__ == "__main__":
+    _ = airlineratings_scraping()

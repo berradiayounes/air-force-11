@@ -48,9 +48,7 @@ def keep_only_english_non_empty(sentence):
 def merge_reviews():
     # Flight_report_df part
     flight_report_df = pd.read_csv("data/flight_report.csv")
-    flight_report_df = flight_report_df.rename(
-        columns={"review": "Review Body"}
-    )
+    flight_report_df = flight_report_df.rename(columns={"review": "Review Body"})
     flight_report_df_simple = flight_report_df["Review Body"]
 
     # airline_ratings_df PART
@@ -139,15 +137,11 @@ def merge_reviews():
     )
 
     airline_ratings_df_simple = airline_ratings_df_rearranged["Review Body"]
-    simple_master_file = flight_report_df_simple.append(
-        airline_ratings_df_simple
-    )
+    simple_master_file = flight_report_df_simple.append(airline_ratings_df_simple)
 
     # trip_advisor_df PART
     trip_advisor_df = pd.read_csv("data/trip_advisor_reviews.csv")
-    trip_advisor_df = trip_advisor_df.rename(
-        columns={"reviews": "Review Body"}
-    )
+    trip_advisor_df = trip_advisor_df.rename(columns={"reviews": "Review Body"})
     trip_advisor_df["scores"] = (
         trip_advisor_df["scores"] * 2
     )  # standardizing the scores /10
@@ -200,9 +194,7 @@ def merge_reviews():
     skytrax_df_simple = skytrax_df_rearranged["Review Body"]
     simple_master_file = simple_master_file.append(skytrax_df_simple)
     simple_master_file = (
-        simple_master_file.dropna()
-        .progress_apply(keep_only_english_non_empty)
-        .dropna()
+        simple_master_file.dropna().progress_apply(keep_only_english_non_empty).dropna()
     )
 
     # Creating a simple master file with only the reviews
@@ -229,25 +221,39 @@ def merge_reviews():
     )
     master_file = master_file.append(airline_ratings_df_rearranged)
     master_file = master_file.append(skytrax_df_rearranged)
-    master_file["Review Body"] = (
-        master_file["Review Body"]
-        .progress_apply(keep_only_english_non_empty)
+    master_file["Review Body"] = master_file["Review Body"].progress_apply(
+        keep_only_english_non_empty
     )
     master_file = master_file.dropna(subset=["Review Body"])
     master_file.to_csv("data/main_with_ratings.csv", index=False)
 
-    master_file["Class"].replace({"Flew Economy Class": "Economy Class", "Flew Business Class": "Business Class",
-                        "Flew Economy": "Economy Class", "Flew First" : "First Class", "Flew Premium Economy" : "Premium Economy Class",
-                        "Flew Business" : "Business Class","Flew Premium Economy Class" : "Premium Economy Class",
-                        "Flew First Class":"First Class", "Premium Economy": "Premium Economy Class" }, inplace=True)
-    master_file['Airline_Merge'] = master_file["Airline"].str.replace("-", "").str.replace(' ','').str.lower()
+    master_file["Class"].replace(
+        {
+            "Flew Economy Class": "Economy Class",
+            "Flew Business Class": "Business Class",
+            "Flew Economy": "Economy Class",
+            "Flew First": "First Class",
+            "Flew Premium Economy": "Premium Economy Class",
+            "Flew Business": "Business Class",
+            "Flew Premium Economy Class": "Premium Economy Class",
+            "Flew First Class": "First Class",
+            "Premium Economy": "Premium Economy Class",
+        },
+        inplace=True,
+    )
+    master_file["Airline_Merge"] = (
+        master_file["Airline"].str.replace("-", "").str.replace(" ", "").str.lower()
+    )
 
-    df3 = pd.read_csv('data/airlineratings_categories_and_ratings.csv')
-    df3['Airline_Merge'] = df3['Airline'].str.replace(' ','').str.replace('-','').str.lower()
+    df3 = pd.read_csv("data/airlineratings_categories_and_ratings.csv")
+    df3["Airline_Merge"] = (
+        df3["Airline"].str.replace(" ", "").str.replace("-", "").str.lower()
+    )
 
-
-    final_master_file = pd.merge(master_file, df3, left_on='Airline_Merge', right_on='Airline_Merge')
-    _ = final_master_file.to_csv('data/main_with_ratings_category.csv')
+    final_master_file = pd.merge(
+        master_file, df3, left_on="Airline_Merge", right_on="Airline_Merge"
+    )
+    _ = final_master_file.to_csv("data/main_with_ratings_category.csv")
 
     return 0
 

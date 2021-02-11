@@ -24,9 +24,7 @@ def get_airline_links(url=AIRLINE_PAGE_URL):
     airline_links = {}
     alphabet = list(string.ascii_lowercase)
     for letter in tqdm(alphabet):
-        soup = BeautifulSoup(
-            requests.get(url.format(letter)).text, features="lxml"
-        )
+        soup = BeautifulSoup(requests.get(url.format(letter)).text, features="lxml")
         airlines_html = soup.findAll("article", {"class": "airline"})
         for element in airlines_html:
             name = element.find("span", {"itemprop": "name"}).text
