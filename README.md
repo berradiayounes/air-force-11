@@ -50,11 +50,11 @@ air-force-11
 
 In the folder scraping_scripts, you can find all the scripts used to scrape the websites cited above.
 
-We used the libraries **Request**, **Beautiful Soup (bs4)** and **Selenium** to get the reviews
+We used the libraries **Request**, **Beautiful Soup (bs4)** and **Selenium** to get the reviews.
 
-Each script is specific to the website, but the core approach is the same for the website we surveyed:
+Each script is specific to the website, but the core approach is the same for the websites we surveyed:
 
-1. Get the airline names and the links to the page where the reviews can be found
+1. Get the airline names and the links to the pages where the reviews can be found
 2. For each of those links, extract the reviews found
 
 First step explains why you can find two scripts, the first one for the first part and the second for the second part.
@@ -70,9 +70,9 @@ Eventually, once all websites are scraped, you can concanate them using the scri
 The preprocessing step consists of the following steps:
 1. Remove ponctuation
 2. Remove stopwords
-3. Tokenization using a pretrained BERT Tokenizer
-4. Remove reviews that speaks about covid and canceled flights
-5. Lemmatization
+3. Tokenize using a pretrained BERT Tokenizer
+4. Remove reviews that speak about covid and cancelled flights
+5. Lemmatize
 
 * **Topic Modeling**
 
@@ -82,7 +82,7 @@ However we chose to go with NMF embeddings as they were faster.
 
 * **Aspect Based Sentiment Analysis**
  
-Using the topics extracted via the topic modeling step, we used the library **[aspect-based-sentiment-analysis](https://pypi.org/project/aspect-based-sentiment-analysis/)** to extract the sentiment of the reviews with regards to each of those topics
+Using the topics extracted via the topic modeling step, we used the library **[aspect-based-sentiment-analysis](https://pypi.org/project/aspect-based-sentiment-analysis/)** to extract the sentiments of the reviews with regards to each of those topics.
 
 
 ## Setup python project
@@ -103,7 +103,7 @@ python3 -m venv air-force-11
 python3 -m pip install -r requirements.txt
 ```
 
-When using gensim to genrate features, you need to download the corpus `mallet-2.0.8`
+When using gensim to generate features, you need to download the corpus `mallet-2.0.8`
 
 ```bash
 curl -O "http://mallet.cs.umass.edu/dist/mallet-2.0.8.zip"
