@@ -99,6 +99,8 @@ def get_sentiments(
 
     for i in tqdm(reviews.index):
         review = reviews.at[i, review_column]
+        if len(review) > 511:
+            review = review[:511]
         aspects = _get_aspects_for_review(review, all_aspects)
 
         if aspects != []:
